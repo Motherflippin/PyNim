@@ -1,6 +1,7 @@
 ### CODE ENTRY POINT
 
 from NeuralNetwork import *
+from NimGame import *
 
 Tester = NeuralNetwork()
 
@@ -14,3 +15,10 @@ print(Tester.OutputLayer[0].CurrentActivation)
 print(Tester.OutputLayer[1].CurrentActivation)
 
 print(Tester.CategoriseOutput(Tester.OutputLayer[0].CurrentActivation, Tester.OutputLayer[1].CurrentActivation))
+
+NimBoard = Nim()
+print(NimBoard.RemovePieces(1, 6))
+NimBoard.RemovePieces(2, 6)
+NimBoard.RemovePieces(3, 6)
+print(NimBoard.RemovePieces(4, 6))
+NimBoard.PrintBoard()
