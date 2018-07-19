@@ -9,6 +9,7 @@ class Node:
 
     def DefineCurrentActivation(self):
         self.CurrentActivation = Decimal(Maths.AdjustedSigmoid(self.SumOfInputActivations))
+        if self.CurrentActivation < self.Threshold: self.CurrentActivation = 0
 
     def LazyDefineCurrentActivation(self):
         self.CurrentActivation = Decimal(self.SumOfInputActivations)

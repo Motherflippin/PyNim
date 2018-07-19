@@ -6,12 +6,14 @@ from random import uniform as randfloat
 class NeuralNetwork:
     def __init__(self):
         self.InputLayerWidth = 18
-        self.HiddenLayerWidth = 10
-        self.OutputLayerWidth = 2
+        #self.HiddenLayerWidth = 10
+        #self.OutputLayerWidth = 2
+        self.HiddenLayerWidth = 21
+        self.OutputLayerWidth = 24
 
-        self.NumInputToHiddenLinks = 180 #18 * 10
-        self.NumHiddenToHiddenLinks = 100 #10 * 10
-        self.NumHiddenToOutputLinks = 20 #10 * 2
+        self.NumInputToHiddenLinks = 18 * 21 #18 * 10
+        self.NumHiddenToHiddenLinks = 21*21 #10 * 10
+        self.NumHiddenToOutputLinks = 21 * 24 #10 * 2
 
         self.InputLayer = []
         for i in range(0, self.InputLayerWidth): self.InputLayer.append(Node())
@@ -166,8 +168,8 @@ class NeuralNetwork:
                 exec("i.Threshold = Decimal(" + NetFile.readline().rstrip("\n") + ")")
 
     def UpdateNetwork(self):
-        TweakLowerBound = -0.02
-        TweakUpperBound = 0.02
+        TweakLowerBound = -1
+        TweakUpperBound = 1
 
         for i in self.InputLayer:
             i.Threshold += Decimal(randfloat(TweakLowerBound, TweakUpperBound))
@@ -216,3 +218,35 @@ class NeuralNetwork:
 
         return Row, Pieces
 
+    #def CategoriseOwnOutput(self):
+        Row = 0 #Row of board to make move on
+        Pieces = 0 #Number of pieces to take
+
+    #    if self.OutputLayer[0].CurrentActivation < 0.25: Row = 1
+    #    elif self.OutputLayer[0].CurrentActivation < 0.5: Row = 2
+     #   elif self.OutputLayer[0].CurrentActivation < 0.75: Row = 3
+     #   else: Row = 4
+
+    #    if self.OutputLayer[1].CurrentActivation < (1/6): Pieces = 1
+     #   if self.OutputLayer[1].CurrentActivation < (2/6): Pieces = 2
+     #   if self.OutputLayer[1].CurrentActivation < (3/6): Pieces = 3
+     #   if self.OutputLayer[1].CurrentActivation < (4/6): Pieces = 4
+     #   if self.OutputLayer[1].CurrentActivation < (5/6): Pieces = 5
+     #   else: Pieces = 6
+
+     #  return Row, Pieces
+
+    def CategoriseOwnOutput(self):
+        OutputNums = [i.CurrentActivation for i in self.OutputLayer]
+        ValueOfMax = max(OutputNums)
+
+        Index = 0
+        i = 0
+        while i < len(self.OutputLayer):
+            if self.OutputLayer[i] == ValueOfMax: Index = i
+            i += 1
+
+        Row = (Index % 6) + 1
+        Pieces = int(Index / 6) + 1
+
+        return Row, Pieces

@@ -6,6 +6,14 @@ class Nim:
         self.Row4 = [True for i in range(0, 3)]
 
     def RemovePieces(self, Row, Pieces):
+        if Pieces < 1: Pieces = 1
+
+        StartingTargetRow = []
+        if Row == 1: StartingTargetRow = self.Row1
+        if Row == 2: StartingTargetRow = self.Row2
+        if Row == 3: StartingTargetRow = self.Row3
+        if Row == 4: StartingTargetRow = self.Row4
+
         if Row == 1:
             LastUsedColumn = -1
             for i in self.Row1:
@@ -61,6 +69,18 @@ class Nim:
                     self.Row4[LastUsedColumn] = False
                     LastUsedColumn -= 1
                     Pieces -= 1
+
+        if Row == 1 and StartingTargetRow == self.Row1:
+            self.RemovePieces(2, Pieces)
+
+        if Row == 2 and StartingTargetRow == self.Row2:
+            self.RemovePieces(3, Pieces)
+
+        if Row == 3 and StartingTargetRow == self.Row3:
+            self.RemovePieces(4, Pieces)
+
+        if Row == 4 and StartingTargetRow == self.Row4:
+            self.RemovePieces(1, Pieces)
 
         WinnerIsKnown = True
 
